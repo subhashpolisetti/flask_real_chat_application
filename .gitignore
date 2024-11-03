@@ -1,0 +1,27 @@
+# Virtual environment
+venv/
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database files
+*.sqlite3
+*.db
+chat_history.db
+
+# Flask instance folder
+instance/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db

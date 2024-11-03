@@ -1,0 +1,135 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Room</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Messenger Room</h1>
+        </header>
+        <div class="chat-box">
+            <div id="chat-log">
+                <div id="message-list"></div>
+            </div>
+            <input id="username" type="text" placeholder="Enter your name" />
+            <input id="room-name" type="text" placeholder="Enter room name" />
+            <button onclick="enterChatRoom()">Join Chat</button>
+            <div class="message-input-area" style="display: none;">
+                <input id="message-content" type="text" placeholder="Type your message" />
+                <button onclick="submitMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        let currentRoom, currentUser;
+
+        function enterChatRoom() {
+            currentUser = document.getElementById('username').value;
+            currentRoom = document.getElementById('room-name').value;
+            if (currentUser && currentRoom) {
+                socket.emit('join_chat', { username: currentUser, room: currentRoom });
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('room-name').style.display = 'none';
+                document.querySelector('.message-input-area').style.display = 'flex';
+            }
+        }
+
+        socket.on('message', function(data) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-item');
+            if (data.sender) {
+                messageDiv.innerHTML = `<strong>${data.sender}</strong> <small>${data.timestamp}</small><br>${data.content}`;
+            } else {
+                messageDiv.innerHTML = `<em>${data.content}</em>`;
+            }
+            document.getElementById('message-list').appendChild(messageDiv);
+            document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
+        });
+
+        function submitMessage() {
+            const messageContent = document.getElementById('message-content').value;
+            if (messageContent && currentUser && currentRoom) {
+                socket.emit('send_message', { username: currentUser, room: currentRoom, content: messageContent });
+                document.getElementById('message-content').value = '';
+            }
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Room</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Messenger Room</h1>
+        </header>
+        <div class="chat-box">
+            <div id="chat-log">
+                <div id="message-list"></div>
+            </div>
+            <input id="username" type="text" placeholder="Enter your name" />
+            <input id="room-name" type="text" placeholder="Enter room name" />
+            <button id="join-chat-button" onclick="enterChatRoom()">Join Chat</button>
+            <div class="message-input-area" style="display: none;">
+                <input id="message-content" type="text" placeholder="Type your message" />
+                <button onclick="submitMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        let currentRoom, currentUser;
+
+        function enterChatRoom() {
+            currentUser = document.getElementById('username').value;
+            currentRoom = document.getElementById('room-name').value;
+            if (currentUser && currentRoom) {
+                socket.emit('join_chat', { username: currentUser, room: currentRoom });
+                
+                // Hide username, room input, and Join Chat button
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('room-name').style.display = 'none';
+                document.getElementById('join-chat-button').style.display = 'none';
+                
+                // Show message input area
+                document.querySelector('.message-input-area').style.display = 'flex';
+            }
+        }
+
+        socket.on('message', function(data) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message-item');
+            if (data.sender) {
+                messageDiv.innerHTML = `<strong>${data.sender}</strong> <small>${data.timestamp}</small><br>${data.content}`;
+            } else {
+                messageDiv.innerHTML = `<em>${data.content}</em>`;
+            }
+            document.getElementById('message-list').appendChild(messageDiv);
+            document.getElementById('chat-log').scrollTop = document.getElementById('chat-log').scrollHeight;
+        });
+
+        function submitMessage() {
+            const messageContent = document.getElementById('message-content').value;
+            if (messageContent && currentUser && currentRoom) {
+                socket.emit('send_message', { username: currentUser, room: currentRoom, content: messageContent });
+                document.getElementById('message-content').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
